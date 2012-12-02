@@ -1,4 +1,4 @@
-package model;
+package model.dijkstra;
 
 public interface VertexInterface {
 

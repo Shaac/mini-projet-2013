@@ -1,4 +1,4 @@
-package model;
+package model.dijkstra;
 
 import java.util.ArrayList;
 

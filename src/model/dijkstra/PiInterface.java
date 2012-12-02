@@ -1,4 +1,4 @@
-package model;
+package model.dijkstra;
 
 public interface PiInterface {
 	public void setValue(VertexInterface vertex, int value);
