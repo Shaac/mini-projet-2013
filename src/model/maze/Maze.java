@@ -1,5 +1,9 @@
 package model.maze;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import model.dijkstra.GraphInterface;
@@ -63,5 +67,27 @@ public class Maze implements GraphInterface {
 
 	public int getWeight(VertexInterface src, VertexInterface dst) {
 		return 1;
+	}
+	
+	public final void initFromTextFile(String fileName) {
+		FileReader fr = null;
+		BufferedReader br = null;
+		
+		try {
+			fr = new FileReader(fileName);
+			br = new BufferedReader(fr);
+			
+			String line = null;
+			
+			while ((line = br.readLine()) != null)
+				System.out.println(line);
+			
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("Error from class Maze, initFromTextFile: file " + fileName + " not found.");
+		} catch (IOException e) {
+			System.err.println("Error from class Maze, initFromTextFile: read error on file " + fileName + ".");
+		}
 	}
 }
