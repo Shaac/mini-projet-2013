@@ -15,11 +15,10 @@ public class Display extends JPanel implements Observer {
 	private static final long serialVersionUID = -3031592359043728228L;
 	private Maze maze;
 	
-	public Display(Maze maze) {
-		this.maze = maze;
+	public Display(Maze m) {
+		maze = new Maze();
 		setBackground(Color.WHITE) ;
 		setPreferredSize(new Dimension(Maze.WIDTH * 10, Maze.HEIGHT * 10));
-		maze.solve();
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -28,6 +27,12 @@ public class Display extends JPanel implements Observer {
 	}
 		
 	public void update(Observable o, Object arg) {
+		repaint();
+	}
+	
+	public void setMaze(Maze maze) {
+		this.maze = maze;
+		maze.solve();
 		repaint();
 	}
 }

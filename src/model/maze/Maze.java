@@ -19,11 +19,11 @@ public class Maze implements GraphInterface, Graphic {
 
 	private final MBox[][] boxes;
 	private MBox depart, arrival;
-	
+
 	public Maze() {
 		boxes = new MBox[HEIGHT][WIDTH];
 	}
-	
+
 	public final MBox getBox(int line, int column) {
 		return boxes[line][column];
 	}
@@ -42,56 +42,56 @@ public class Maze implements GraphInterface, Graphic {
 
 		int line = box.getLine();
 		int column = box.getColumn();
-		
+
 		if (line > 0) {
 			MBox neighbor = boxes[line - 1][column];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
-		
+
 		if (line < HEIGHT - 1) {
 			MBox neighbor = boxes[line + 1][column];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
-		
+
 		if (column > 0) {
 			MBox neighbor = boxes[line][column - 1];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
-		
+
 		if (column < WIDTH - 1) {
 			MBox neighbor = boxes[line][column + 1];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
-		
+
 		return successors;
 	}
 
 	public int getWeight(VertexInterface src, VertexInterface dst) {
 		return 1;
 	}
-	
+
 	public final void initFromTextFile(String fileName) {
 		FileReader fr = null;
 		BufferedReader br = null;
-		
+
 		try {
 			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
-			
+
 			for (int lineNo = 0; lineNo < HEIGHT; lineNo ++) {
 				String line = br.readLine();
-				
+
 				if (line == null)
 					throw new MazeReadingException(fileName, lineNo, "not enought lines");
 				if (line.length() < WIDTH)
 					throw new MazeReadingException(fileName, lineNo, "line too short");
 				if (line.length() > WIDTH)
 					throw new MazeReadingException(fileName, lineNo, "line too long");
-				
+
 				for (int columnNo = 0; columnNo < WIDTH; columnNo ++)
 					switch (line.charAt(columnNo)) {
 					case 'D':
@@ -112,7 +112,7 @@ public class Maze implements GraphInterface, Graphic {
 						throw new MazeReadingException(fileName, lineNo, "unknown character");
 					}
 			}
-			
+
 			fr.close();
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -123,13 +123,13 @@ public class Maze implements GraphInterface, Graphic {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	public final void saveToTextFile(String fileName) {
 		PrintWriter pw = null;
-		
+
 		try {
 			pw = new PrintWriter(fileName);
-			
+
 			for (int lineNo = 0; lineNo < HEIGHT; lineNo ++) {
 				for (int columnNo = 0; columnNo < WIDTH; columnNo ++)
 					pw.print(boxes[lineNo][columnNo]);
@@ -140,7 +140,7 @@ public class Maze implements GraphInterface, Graphic {
 			System.err.println("Error from class Maze, initFromTextFile: file " + fileName + " not found.");
 		}
 	}
-	
+
 	public void solve() {
 		for (VertexInterface v : getAllVertices())
 			((MBox) v).setIsOnPath(false);
@@ -150,6 +150,7 @@ public class Maze implements GraphInterface, Graphic {
 
 	public void draw(Graphics g) {
 		for (VertexInterface v : getAllVertices())
-			((MBox) v).draw(g);	
+			if (v != null)
+				((MBox) v).draw(g);	
 	}
 }
