@@ -1,5 +1,6 @@
 package model.maze;
 
+import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,8 +11,9 @@ import java.util.ArrayList;
 import model.dijkstra.Dijkstra;
 import model.dijkstra.GraphInterface;
 import model.dijkstra.VertexInterface;
+import view.Graphic;
 
-public class Maze implements GraphInterface {
+public class Maze implements GraphInterface, Graphic {
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
 
@@ -140,8 +142,14 @@ public class Maze implements GraphInterface {
 	}
 	
 	public void solve() {
-		ArrayList<VertexInterface> a = Dijkstra.dijkstra(this, depart).getShortestPathTo(arrival);
-		for (VertexInterface p : a)
-			((MBox) p).setIsOnPath(true);
+		for (VertexInterface v : getAllVertices())
+			((MBox) v).setIsOnPath(false);
+		for (VertexInterface v : Dijkstra.dijkstra(this, depart).getShortestPathTo(arrival))
+			((MBox) v).setIsOnPath(true);
+	}
+
+	public void draw(Graphics g) {
+		for (VertexInterface v : getAllVertices())
+			((MBox) v).draw(g);	
 	}
 }

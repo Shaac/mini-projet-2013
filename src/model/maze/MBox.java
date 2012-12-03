@@ -1,8 +1,9 @@
 package model.maze;
 
+import view.Graphic;
 import model.dijkstra.VertexInterface;
 
-public abstract class MBox implements VertexInterface {
+public abstract class MBox implements VertexInterface, Graphic {
 	private final Maze maze;
 	private final int line;
 	private final int column;
