@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
-import model.maze.Maze;
-
 /**
  * This is the Frame that contains everything.
  * 
@@ -17,11 +15,6 @@ public class MainWindow extends JFrame {
 	 * A generated serial version ID. 
 	 */
 	private static final long serialVersionUID = 3172688540921699213L;
-	
-	/**
-	 * The maze we are working on.
-	 */
-	private Maze maze;
 
 	/**
 	 * Creates the main Window.
@@ -32,13 +25,12 @@ public class MainWindow extends JFrame {
 		super("Maze");
 		
 		// Create the display zone for the maze:
-		Display display = new Display(maze);
+		Display display = new Display();
 		
 		// Display the buttons:
 		Buttons buttons = new Buttons(display);
 		
 		// Build the window:
-		setLayout(new BorderLayout());
 		add(display, BorderLayout.CENTER);
 		add(buttons, BorderLayout.SOUTH);
 		

@@ -10,12 +10,12 @@ import javax.swing.JPanel;
 
 import model.maze.Maze;
 
-public class Display extends JPanel implements Observer {
+public class Display extends JPanel {
 
 	private static final long serialVersionUID = -3031592359043728228L;
 	private Maze maze;
 	
-	public Display(Maze m) {
+	public Display() {
 		maze = new Maze();
 		setBackground(Color.WHITE) ;
 		setPreferredSize(new Dimension(Maze.WIDTH * 10, Maze.HEIGHT * 10));
@@ -24,10 +24,6 @@ public class Display extends JPanel implements Observer {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	    maze.draw(g);
-	}
-		
-	public void update(Observable o, Object arg) {
-		repaint();
 	}
 	
 	public void setMaze(Maze maze) {
