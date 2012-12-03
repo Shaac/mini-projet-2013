@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import model.dijkstra.Dijkstra;
 import model.dijkstra.GraphInterface;
 import model.dijkstra.VertexInterface;
 
@@ -15,6 +16,7 @@ public class Maze implements GraphInterface {
 	public static final int HEIGHT = 10;
 
 	private final MBox[][] boxes;
+	private MBox depart, arrival;
 	
 	public Maze() {
 		boxes = new MBox[HEIGHT][WIDTH];
@@ -92,9 +94,11 @@ public class Maze implements GraphInterface {
 					switch (line.charAt(columnNo)) {
 					case 'D':
 						boxes[lineNo][columnNo] = new DBox(this, lineNo, columnNo);
+						depart = boxes[lineNo][columnNo];
 						break;
 					case 'A':
 						boxes[lineNo][columnNo] = new ABox(this, lineNo, columnNo);
+						arrival = boxes[lineNo][columnNo];
 						break;
 					case 'W':
 						boxes[lineNo][columnNo] = new WBox(this, lineNo, columnNo);
@@ -133,5 +137,11 @@ public class Maze implements GraphInterface {
 		} catch (FileNotFoundException e) {
 			System.err.println("Error from class Maze, initFromTextFile: file " + fileName + " not found.");
 		}
+	}
+	
+	public void solve() {
+		ArrayList<VertexInterface> a = Dijkstra.dijkstra(this, depart).getShortestPathTo(arrival);
+		for (VertexInterface p : a)
+			System.out.println(p.getLabel());
 	}
 }

@@ -21,7 +21,6 @@ public class Previous implements PreviousInterface {
 
 	public ArrayList<VertexInterface> getShortestPathTo(VertexInterface vertex) {
 		ArrayList<VertexInterface> result = new ArrayList<VertexInterface>();
-		
 		while (vertex != null) {
 			result.add(vertex);
 			vertex = getValue(vertex);

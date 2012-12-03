@@ -7,6 +7,7 @@ public class Main {
 		Maze maze = new Maze();
 		
 		maze.initFromTextFile("data/labyrinthe1.txt");
+		maze.solve();
 		maze.saveToTextFile("data/labyrinthe2.txt");
 	}
 }
