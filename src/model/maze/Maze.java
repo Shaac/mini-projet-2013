@@ -142,6 +142,6 @@ public class Maze implements GraphInterface {
 	public void solve() {
 		ArrayList<VertexInterface> a = Dijkstra.dijkstra(this, depart).getShortestPathTo(arrival);
 		for (VertexInterface p : a)
-			System.out.println(p.getLabel());
+			((MBox) p).setIsOnPath(true);
 	}
 }

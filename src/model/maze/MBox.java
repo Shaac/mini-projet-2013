@@ -6,6 +6,7 @@ public abstract class MBox implements VertexInterface {
 	private final Maze maze;
 	private final int line;
 	private final int column;
+	private boolean isOnPath = false;
 	
 	public final String getLabel() {
 		return "(" + line + "," + column + ")";
@@ -29,5 +30,13 @@ public abstract class MBox implements VertexInterface {
 	
 	public final int getColumn() {
 		return column;
+	}
+	
+	public final void setIsOnPath(boolean b) {
+		isOnPath = b;
+	}
+	
+	public final boolean getIsOnPath() {
+		return isOnPath;
 	}
 }
