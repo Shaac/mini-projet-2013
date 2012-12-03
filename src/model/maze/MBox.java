@@ -17,6 +17,8 @@ public abstract class MBox implements VertexInterface {
 		this.column = column;
 	}
 	
+	public abstract String toString();
+	
 	public boolean isAccessible() {
 		return true;
 	}

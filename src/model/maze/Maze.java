@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import model.dijkstra.GraphInterface;
@@ -77,10 +78,34 @@ public class Maze implements GraphInterface {
 			fr = new FileReader(fileName);
 			br = new BufferedReader(fr);
 			
-			String line = null;
-			
-			while ((line = br.readLine()) != null)
-				System.out.println(line);
+			for (int lineNo = 0; lineNo < HEIGHT; lineNo ++) {
+				String line = br.readLine();
+				
+				if (line == null)
+					throw new MazeReadingException(fileName, lineNo, "not enought lines");
+				if (line.length() < WIDTH)
+					throw new MazeReadingException(fileName, lineNo, "line too short");
+				if (line.length() > WIDTH)
+					throw new MazeReadingException(fileName, lineNo, "line too long");
+				
+				for (int columnNo = 0; columnNo < WIDTH; columnNo ++)
+					switch (line.charAt(columnNo)) {
+					case 'D':
+						boxes[lineNo][columnNo] = new DBox(this, lineNo, columnNo);
+						break;
+					case 'A':
+						boxes[lineNo][columnNo] = new ABox(this, lineNo, columnNo);
+						break;
+					case 'W':
+						boxes[lineNo][columnNo] = new WBox(this, lineNo, columnNo);
+						break;
+					case 'E':
+						boxes[lineNo][columnNo] = new EBox(this, lineNo, columnNo);
+						break;
+					default:
+						throw new MazeReadingException(fileName, lineNo, "unknown character");
+					}
+			}
 			
 			fr.close();
 			br.close();
@@ -88,6 +113,25 @@ public class Maze implements GraphInterface {
 			System.err.println("Error from class Maze, initFromTextFile: file " + fileName + " not found.");
 		} catch (IOException e) {
 			System.err.println("Error from class Maze, initFromTextFile: read error on file " + fileName + ".");
+		} catch (MazeReadingException e) {
+			System.err.println(e.getMessage());
+		}
+	}
+	
+	public final void saveToTextFile(String fileName) {
+		PrintWriter pw = null;
+		
+		try {
+			pw = new PrintWriter(fileName);
+			
+			for (int lineNo = 0; lineNo < HEIGHT; lineNo ++) {
+				for (int columnNo = 0; columnNo < WIDTH; columnNo ++)
+					pw.print(boxes[lineNo][columnNo]);
+				pw.println();
+			}
+			pw.close();
+		} catch (FileNotFoundException e) {
+			System.err.println("Error from class Maze, initFromTextFile: file " + fileName + " not found.");
 		}
 	}
 }

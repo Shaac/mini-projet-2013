@@ -6,4 +6,7 @@ public class EBox extends MBox {
 		super(maze, line, column);
 	}
 
+	public String toString() {
+		return "E";
+	}
 }

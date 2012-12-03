@@ -10,4 +10,8 @@ public class WBox extends MBox {
 	public boolean isAccessible() {
 		return false;
 	}
+	
+	public String toString() {
+		return "W";
+	}
 }

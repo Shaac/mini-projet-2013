@@ -4,6 +4,9 @@ import model.maze.Maze;
 
 public class Main {
 	public static void main(String[] args) {
-		new Maze().initFromTextFile("data/labyrinthe1.txt");
+		Maze maze = new Maze();
+		
+		maze.initFromTextFile("data/labyrinthe1.txt");
+		maze.saveToTextFile("data/labyrinthe2.txt");
 	}
 }
