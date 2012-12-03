@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.LoadListener;
+import controller.SaveListener;
 
 public class Buttons extends JPanel {
 	
@@ -22,10 +23,11 @@ public class Buttons extends JPanel {
 		load.addActionListener(new LoadListener(display));
 		add(load);
 		
-		JButton edit = new JButton("Edit");
-		add(edit);
-		
 		JButton save = new JButton("Save");
+		save.addActionListener(new SaveListener(display));
 		add(save);
+		
+		JButton clean = new JButton("Clean");
+		add(clean);
 	}
 }

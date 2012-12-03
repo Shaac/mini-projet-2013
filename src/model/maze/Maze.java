@@ -11,20 +11,21 @@ import java.util.ArrayList;
 import model.dijkstra.Dijkstra;
 import model.dijkstra.GraphInterface;
 import model.dijkstra.VertexInterface;
+import model.maze.Box.Type;
 import view.Graphic;
 
 public class Maze implements GraphInterface, Graphic {
 	public static final int WIDTH = 10;
 	public static final int HEIGHT = 10;
 
-	private final MBox[][] boxes;
-	private MBox depart, arrival;
+	private final Box[][] boxes;
+	private Box departure, arrival;
 
 	public Maze() {
-		boxes = new MBox[HEIGHT][WIDTH];
+		boxes = new Box[HEIGHT][WIDTH];
 	}
 
-	public final MBox getBox(int line, int column) {
+	public final Box getBox(int line, int column) {
 		return boxes[line][column];
 	}
 
@@ -38,31 +39,31 @@ public class Maze implements GraphInterface, Graphic {
 
 	public ArrayList<VertexInterface> getSuccessors(VertexInterface vertex) {
 		ArrayList<VertexInterface> successors = new ArrayList<VertexInterface>();
-		MBox box = (MBox) vertex;
+		Box box = (Box) vertex;
 
 		int line = box.getLine();
 		int column = box.getColumn();
 
 		if (line > 0) {
-			MBox neighbor = boxes[line - 1][column];
+			Box neighbor = boxes[line - 1][column];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
 
 		if (line < HEIGHT - 1) {
-			MBox neighbor = boxes[line + 1][column];
+			Box neighbor = boxes[line + 1][column];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
 
 		if (column > 0) {
-			MBox neighbor = boxes[line][column - 1];
+			Box neighbor = boxes[line][column - 1];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
 
 		if (column < WIDTH - 1) {
-			MBox neighbor = boxes[line][column + 1];
+			Box neighbor = boxes[line][column + 1];
 			if (neighbor.isAccessible())
 				successors.add(neighbor);
 		}
@@ -95,18 +96,18 @@ public class Maze implements GraphInterface, Graphic {
 				for (int columnNo = 0; columnNo < WIDTH; columnNo ++)
 					switch (line.charAt(columnNo)) {
 					case 'D':
-						boxes[lineNo][columnNo] = new DBox(this, lineNo, columnNo);
-						depart = boxes[lineNo][columnNo];
+						boxes[lineNo][columnNo] = new Box(this, lineNo, columnNo, Type.DEPARTURE);
+						departure = boxes[lineNo][columnNo];
 						break;
 					case 'A':
-						boxes[lineNo][columnNo] = new ABox(this, lineNo, columnNo);
+						boxes[lineNo][columnNo] = new Box(this, lineNo, columnNo, Type.ARRIVAL);
 						arrival = boxes[lineNo][columnNo];
 						break;
 					case 'W':
-						boxes[lineNo][columnNo] = new WBox(this, lineNo, columnNo);
+						boxes[lineNo][columnNo] = new Box(this, lineNo, columnNo, Type.WALL);
 						break;
 					case 'E':
-						boxes[lineNo][columnNo] = new EBox(this, lineNo, columnNo);
+						boxes[lineNo][columnNo] = new Box(this, lineNo, columnNo, Type.EMPTY);
 						break;
 					default:
 						throw new MazeReadingException(fileName, lineNo, "unknown character");
@@ -142,15 +143,37 @@ public class Maze implements GraphInterface, Graphic {
 	}
 
 	public void solve() {
-		for (VertexInterface v : getAllVertices())
-			((MBox) v).setIsOnPath(false);
-		for (VertexInterface v : Dijkstra.dijkstra(this, depart).getShortestPathTo(arrival))
-			((MBox) v).setIsOnPath(true);
+		for (VertexInterface v : getAllVertices()) {
+			((Box) v).setIsOnPath(false);
+		}
+		if (departure != null && arrival != null)
+			for (VertexInterface v : Dijkstra.dijkstra(this, departure).getShortestPathTo(arrival))
+				((Box) v).setIsOnPath(true);
 	}
 
 	public void draw(Graphics g) {
 		for (VertexInterface v : getAllVertices())
 			if (v != null)
-				((MBox) v).draw(g);	
+				((Box) v).draw(g);	
+	}
+
+	public void switchBox(int column, int line) {
+		boxes[line][column].switchBox();
+	}
+
+	public Box getDeparture() {
+		return departure;
+	}
+
+	public Box getArrival() {
+		return arrival;
+	}
+
+	public void setDeparture(Box departure) {
+		this.departure = departure;
+	}
+
+	public void setArrival(Box arrival) {
+		this.arrival = arrival;
 	}
 }

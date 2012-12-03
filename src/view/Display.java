@@ -3,8 +3,6 @@ package view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 
@@ -26,8 +24,18 @@ public class Display extends JPanel {
 	    maze.draw(g);
 	}
 	
+	public Maze getMaze() {
+		return maze;
+	}
+	
 	public void setMaze(Maze maze) {
 		this.maze = maze;
+		maze.solve();
+		repaint();
+	}
+	
+	public void switchBox(int column, int line) {
+		maze.switchBox(column, line);
 		maze.solve();
 		repaint();
 	}

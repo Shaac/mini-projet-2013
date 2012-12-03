@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import controller.Mouse;
+
 /**
  * This is the Frame that contains everything.
  * 
@@ -29,6 +31,8 @@ public class MainWindow extends JFrame {
 		
 		// Display the buttons:
 		Buttons buttons = new Buttons(display);
+		
+		addMouseListener(new Mouse(display));
 		
 		// Build the window:
 		add(display, BorderLayout.CENTER);
