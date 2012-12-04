@@ -7,6 +7,7 @@ import view.Graphic;
 import model.dijkstra.VertexInterface;
 
 public class Box implements VertexInterface, Graphic {
+    public static int size = 10;
 	public enum Type {WALL, EMPTY, DEPARTURE, ARRIVAL};
 	private final Maze maze;
 	private Type type;

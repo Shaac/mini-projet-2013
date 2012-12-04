@@ -158,7 +158,8 @@ public class Maze implements GraphInterface, Graphic {
 	}
 
 	public void switchBox(int column, int line) {
-		boxes[line][column].switchBox();
+        if (column >= 0 && column < WIDTH && line >= 0 && line < HEIGHT)
+            boxes[line][column].switchBox();
 	}
 
 	public Box getDeparture() {
